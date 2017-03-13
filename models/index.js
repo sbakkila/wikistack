@@ -9,7 +9,7 @@ var Page = db.define('page', {
     },
     urlTitle: {
         type: Sequelize.STRING, allowNull: false,
-        get: function(){
+        route: function(){
           var route = this.getDataValue('urltitle');
           return '/wiki/' + route;
         }
@@ -36,7 +36,18 @@ var User = db.define('user', {
     }
 });
 
+// var User_Pages = db.define('user_pages', {
+//     page_id:{
+//         type: Sequelize.INTEGER, allowNull: false
+//     },
+//     user_id: {
+//         type: Sequelize.INTEGER, allowNull: false
+//     }
+
+// });
+
 module.exports = {
   Page: Page,
-  User: User
+  User: User,
+  // User_Pages: User_Pages
 };
