@@ -1,17 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <!-- <h3>{{title}} <small> (<a href="{{title}}/similar">Similar</a>)</small></h3> -->
-  <!-- <h4>by <a href="PLACEHOLDER-AUTHOR-URL">PLACEHOLDER AUTHOR NAME</a></h4> -->
-  <!-- <div>PLACEHOLDER TAG LIST</div> -->
-  <hr/>
-  <!-- <div>PLACEHOLDER AUTHOR NAME WITH LINK TO AUTHOR PAGE</div> -->
+  <br/>
+  <br/>
   <br/>
   <h1>{{title}}</h1>
-  <div>{{date}}</div>
+
+  <h3> <small> (<a href="PLACEHOLDER_URL_TITLE/similar">Similar</a>)</small></h3>
+  <h4>by <a href="/wiki/users/{{author_id}}">{{author}}</a></h4>
+  <!-- <div>PLACEHOLDER TAG LIST</div> -->
+  <hr/>
   <div class="page-body">{{content}}</div>
   <hr/>
-
-  <a href="/wiki/{{urlTitle}}/edit" class="btn btn-primary">edit this page</a>
-  <a href="/wiki/{{urlTitle}}/delete" class="btn btn-danger">delete this page</a>
+  <a href="/wiki/{{title}}/edit" class="btn btn-primary">edit this page</a>
+  <a href="/wiki/{{title}}/delete" class="btn btn-danger">delete this page</a>
 {% endblock %}

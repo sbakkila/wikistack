@@ -8,11 +8,7 @@ var Page = db.define('page', {
         type: Sequelize.STRING, allowNull: false
     },
     urlTitle: {
-        type: Sequelize.STRING, allowNull: false,
-        route: function(){
-          var route = this.getDataValue('urltitle');
-          return '/wiki/' + route;
-        }
+      type: Sequelize.STRING, allowNull: false
     },
     content: {
         type: Sequelize.TEXT, allowNull: false
@@ -25,7 +21,29 @@ var Page = db.define('page', {
        defaultValue: Sequelize.NOW
    }
 
+},
+{
+  getterMethods: {
+    route: function(){
+      var route = this.getDataValue('urlTitle');
+      return '/wiki/' + route;
+    }
+  }
 });
+
+Page.hook('beforeValidate', function(page, options){
+  console.log('I am a hook');
+  if (page.title) {
+      // Removes all non-alphanumeric characters from title
+      // And make whitespace underscore
+      console.log('I was a hook and i like returning');
+      return page.urlTitle = page.title.replace(/\s+/g, '_').replace(/\W/g, '');
+  } else {
+      // Generates random 5 letter string
+      return page.urlTitle = Math.random().toString(36).substring(2, 7);
+  }
+
+})
 
 var User = db.define('user', {
     name: {
@@ -36,18 +54,19 @@ var User = db.define('user', {
     }
 });
 
-// var User_Pages = db.define('user_pages', {
-//     page_id:{
-//         type: Sequelize.INTEGER, allowNull: false
-//     },
+// var UsersTables = db.define('user', {
 //     user_id: {
 //         type: Sequelize.INTEGER, allowNull: false
+//     },
+//     page_id: {
+//         type: Sequelize.INTEGER, isEmail: true, allowNull: false
 //     }
-
 // });
+
+Page.belongsTo(User, { as: 'author' });
+
 
 module.exports = {
   Page: Page,
-  User: User,
-  // User_Pages: User_Pages
+  User: User
 };

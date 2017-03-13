@@ -24,7 +24,7 @@ app.use(bodyParser.json()); // would be for AJAX requests
 
 models.User.sync({})
 .then(function () {
-    return models.Page.sync({})
+    return models.Page.sync({ force: true })
 })
 .then(function () {
     app.listen(3000, function () {
