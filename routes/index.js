@@ -39,7 +39,7 @@ router.post('/wiki/', function(req, res, next) {
 
     })
     .then(function (page) {
-      console.log(page.route);
+      // console.log(page.route);
       res.redirect(page.route);
     })
     .catch(next);
@@ -64,9 +64,10 @@ router.get('/wiki/user/:userId', function(req, res, next) {
     pagesPromise
   ])
   .then(function(values) {
+  	console.log(values[1][0]);
     var user = values[0];
-    var pages = values[1];
-    console.log(pages);
+    var pages = values[1][0];
+    // console.log(pages);
     res.render('user', { user: user, pages: pages });
   })
   .catch(next);
@@ -75,7 +76,21 @@ router.get('/wiki/user/:userId', function(req, res, next) {
 
 
 router.get('/wiki/:url', function(req, res, next){
-  res.send('It will snow tomorrow');
+	// console.log(req.params.url);
+
+	var pagesPromise = Page.findOne({
+    	where: {
+    	  urlTitle: req.params.url
+    	},
+    	include: [
+      		{model: User, as: 'author'}
+  		]
+  	}).then(function(data){
+  		console.log(data);
+  		res.render('wikipage', {content : data});
+  	})
+
+  
 });
 
 router.get('/wiki/edit/', function(req, res, next) {
